@@ -26,19 +26,16 @@ def decode_status(decimal_code, status_definition):
                     active_flags.append(field['name'])
             
             elif field['type'] == 'enum':
-                # Bitwise operation to extract the enum value
                 enum_val = (decimal_code >> field['shift']) & field['mask']
-                # Get the name from the values dictionary, with a fallback
-                enum_name = field['values'].get(enum_val, f"Unbekannter Wert ({enum_val})")
+                enum_name = field['values'].get(enum_val, f"Unknown Value ({enum_val})")
                 active_flags.append(f"{field['name']}: {enum_name}")
         except KeyError as e:
-            # Handle potential malformed entries in the YAML
-            st.warning(f"Ein fehlerhaftes Feld in der YAML-Definition wird übersprungen: Fehlender Schlüssel {e}")
+            st.warning(f"Skipping a malformed field in YAML definition: Missing key {e}")
 
     return active_flags
 
 # ==============================================================================
-#    Streamlit User Interface (Überarbeitet & Korrigiert)
+#    Streamlit User Interface (Dark Mode CSS)
 # ==============================================================================
 
 # --- Page Configuration ---
@@ -53,36 +50,38 @@ st.markdown("""
 <style>
     /* Main App Styling & Background */
     .stApp {
-        background-color: #f8f9fa; /* Lighter, cleaner background */
+        background-color: #0e1117; /* Dark background */
+        color: #fafafa; /* Light text for the whole app */
     }
 
     /* Main content container for a "card" effect */
     .main .block-container {
-        background-color: #FFFFFF;
+        background-color: #1c1e24; /* Slightly lighter dark for the card */
         padding: 2rem;
         border-radius: 10px;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-        border: 1px solid #e0e0e0;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+        border: 1px solid #333;
     }
     
     /* Header & Logo Styling */
-    h1 {
-        color: #003366; /* Raceyard Dark Blue */
-        text-align: center;
-        font-weight: 700;
+    h1, h2 {
+        color: #ffffff; /* White text for headers */
     }
 
-    /* Subheader Styling (e.g., for "Ergebnisse") */
     h2 {
-        color: #003366;
-        border-bottom: 2px solid #f0f0f0;
+        border-bottom: 2px solid #333; /* Darker border for subheaders */
         padding-bottom: 10px;
         margin-top: 2rem;
     }
+    
+    /* Caption text */
+    .stCaption {
+        color: #a0a0a0;
+    }
 
-    /* Button Styling */
+    /* Button Styling (Orange stands out well) */
     .stButton > button {
-        background-color: #ff6600; /* Raceyard Orange */
+        background-color: #ff6600;
         color: #FFFFFF;
         border: none;
         padding: 12px 24px;
@@ -92,23 +91,22 @@ st.markdown("""
         transition: background-color 0.3s ease, transform 0.2s ease;
     }
     .stButton > button:hover {
-        background-color: #e55b00; /* Darker orange on hover */
+        background-color: #e55b00;
         transform: scale(1.02);
-    }
-    .stButton > button:active {
-        background-color: #cc5200;
     }
 
     /* Input Fields Styling (Selectbox & Text Input) */
     .stSelectbox div[data-baseweb="select"] > div, .stTextInput > div > div > input {
-        border: 1px solid #cccccc;
+        background-color: #262730;
+        color: #fafafa;
+        border: 1px solid #555;
         border-radius: 8px;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        box-shadow: 0 2px 4px rgba(0,0,0,0.2);
         transition: border-color 0.3s ease, box-shadow 0.3s ease;
     }
     .stTextInput > div > div > input:focus, 
     .stSelectbox div[data-baseweb="select"] > div:focus-within {
-         border-color: #ff6600; /* Highlight with accent color on focus */
+         border-color: #ff6600;
          box-shadow: 0 0 0 3px rgba(255, 102, 0, 0.2);
     }
     
@@ -118,11 +116,11 @@ st.markdown("""
         padding-left: 0;
     }
     div[data-testid="stMarkdown"] ul li {
-        background-color: #e9ecef;
+        background-color: #262730;
         margin-bottom: 8px;
         padding: 12px 18px;
         border-radius: 5px;
-        border-left: 5px solid #ff6600; /* Accent color bar */
+        border-left: 5px solid #ff6600;
         font-size: 16px;
     }
 
@@ -138,68 +136,59 @@ def load_definitions():
         with open(filename, "r", encoding="utf-8") as f:
             return yaml.safe_load(f)
     except FileNotFoundError:
-        st.error(f"FATALER FEHLER: Die Konfigurationsdatei '{filename}' wurde nicht gefunden. "
-                 "Bitte stellen Sie sicher, dass sie sich im selben Ordner wie die Anwendung befindet.")
+        st.error(f"FATAL ERROR: The configuration file '{filename}' was not found. "
+                 "Please ensure it is in the same folder as the application.")
         return None
     except yaml.YAMLError as e:
-        st.error(f"FATALER FEHLER: Die YAML-Datei '{filename}' ist fehlerhaft. Details: {e}")
+        st.error(f"FATAL ERROR: The YAML file '{filename}' is malformed. Details: {e}")
         return None
 
 STATUS_CODES = load_definitions()
 
-# --- App Layout ---
+# --- App Layout (English version from previous step) ---
 if STATUS_CODES:
-    # --- Header ---
-    # Centered Logo
     col1, col2, col3 = st.columns([1, 2, 1])
     with col2:
         st.image("https://raceyard.de/wp-content/uploads/2022/05/logo_raceyard_formula_student-1c-weiss.png", use_container_width=True)
 
     st.title("SBG Status Decoder")
-    st.markdown("<p style='text-align: center;'>Ein Werkzeug für das Raceyard-Team zur Dekodierung von SBG Systems Status-Codes.</p>", unsafe_allow_html=True)
+    st.markdown("<p style='text-align: center; color: #a0a0a0;'>A tool for the Raceyard team to decode SBG Systems' status codes.</p>", unsafe_allow_html=True)
+    st.write("---")
 
-    st.write("---") # Visueller Trenner
-
-    # --- Input Section ---
     sorted_keys = sorted(STATUS_CODES.keys())
     
-    # Using columns for a cleaner layout
     col1, col2 = st.columns(2)
     with col1:
         status_type = st.selectbox(
-            "**Status-Typ auswählen:**",
+            "**Select Status Type:**",
             options=sorted_keys,
         )
     with col2:
         decimal_code_input = st.text_input(
-            "**Dezimalcode eingeben:**",
-            placeholder="z.B. 273",
+            "**Enter Decimal Code:**",
+            placeholder="e.g., 273",
         )
 
-    # Display description for selected status type
     st.caption(STATUS_CODES.get(status_type, {}).get("description", ""))
+    st.write("")
 
-    st.write("") # Spacer
-
-    if st.button("Dekodieren", use_container_width=True):
+    if st.button("Decode", use_container_width=True):
         if not decimal_code_input:
-            st.warning("Bitte geben Sie einen Dezimalcode ein.")
+            st.warning("Please enter a decimal code.")
         else:
             try:
                 decimal_code = int(decimal_code_input)
                 
-                # --- Decoding and Output ---
-                st.subheader("Ergebnisse der Dekodierung")
+                st.subheader("Decoding Results")
                 results = decode_status(decimal_code, STATUS_CODES[status_type])
                 
                 if results:
-                    # Use markdown for a clean, bulleted list
                     output_str = "".join([f"- {flag}\n" for flag in results])
                     st.markdown(output_str)
                 else:
-                    st.success("✅ Keine aktiven Flags für diesen Code gefunden.")
+                    st.success("✅ No active flags found for this code.")
 
             except (ValueError, TypeError):
-                st.error("Ungültige Eingabe. Bitte geben Sie eine gültige Ganzzahl ein.")
+                st.error("Invalid input. Please enter a valid integer.")
 else:
-    st.warning("Die Anwendung kann nicht gestartet werden, da die Definitionen der Status-Codes nicht geladen werden konnten.")
+    st.warning("Application cannot start because the status code definitions could not be loaded.")

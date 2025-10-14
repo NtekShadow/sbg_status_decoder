@@ -35,7 +35,7 @@ def decode_status(decimal_code, status_definition):
     return active_flags
 
 # ==============================================================================
-#    Streamlit User Interface (Dark Mode CSS)
+#    Streamlit User Interface (Dark Mode & Centered Title)
 # ==============================================================================
 
 # --- Page Configuration ---
@@ -64,6 +64,10 @@ st.markdown("""
     }
     
     /* Header & Logo Styling */
+    h1 {
+        text-align: center; /* Center the main title */
+    }
+    
     h1, h2 {
         color: #ffffff; /* White text for headers */
     }

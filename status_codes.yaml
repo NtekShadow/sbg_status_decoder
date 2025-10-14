@@ -1,0 +1,403 @@
+# ==============================================================================
+# SBG Systems - Status Code Definitions
+# Based on Firmware Manual SBGFWM.2.2 - Original English Descriptions
+# ==============================================================================
+
+# Source: Page 77-78
+IMU_Status_Solution:
+  description: "Provides information on the internal Kalman filter status such as which aiding data is used to compute the solution and the provided solution mode."
+  fields:
+    - type: "enum"
+      name: "Solution Mode"
+      shift: 0
+      mask: 0xF
+      values:
+        0: "UNINITIALIZED: The Kalman filter is not initialized and the returned data are all invalid."
+        1: "VERTICAL_GYRO: The Kalman filter only relies on a vertical reference to compute roll and pitch angles. Heading and navigation data drift freely."
+        2: "AHRS: A heading reference is available, the Kalman filter provides full orientation but navigation data drift freely."
+        3: "NAV_VELOCITY: The Kalman filter computes orientation and velocity. Position is freely integrated from velocity estimation."
+        4: "NAV_POSITION: Nominal mode, the Kalman filter computes all parameters (attitude, velocity, position). Absolute position is provided."
+    - type: "mask"
+      bit: 4
+      name: "ATTITUDE_VALID: Set to 1 if Attitude data is reliable (Roll/Pitch error < 0.5°)."
+    - type: "mask"
+      bit: 5
+      name: "HEADING_VALID: Set to 1 if Heading data is reliable (Heading error < 1°)."
+    - type: "mask"
+      bit: 6
+      name: "VELOCITY_VALID: Set to 1 if Velocity data is reliable (velocity error < 1.5 m/s)."
+    - type: "mask"
+      bit: 7
+      name: "POSITION_VALID: Set to 1 if Position data is reliable (Position error < 10m)."
+    - type: "mask"
+      bit: 8
+      name: "VERT_REF_USED: Set to 1 if vertical reference is used in solution."
+    - type: "mask"
+      bit: 9
+      name: "MAG_REF_USED: Set to 1 if magnetometer is used in solution."
+    - type: "mask"
+      bit: 10
+      name: "GPS1_VEL_USED: Set to 1 if GPS velocity is used in solution."
+    - type: "mask"
+      bit: 11
+      name: "GPS1_POS_USED: Set to 1 if GPS Position is used in solution."
+    - type: "mask"
+      bit: 13
+      name: "GPS1_HDT_USED: Set to 1 if GPS True Heading is used in solution."
+    - type: "mask"
+      bit: 14
+      name: "GPS2_VEL_USED: Set to 1 if GPS2 velocity is used in solution."
+    - type: "mask"
+      bit: 15
+      name: "GPS2_POS_USED: Set to 1 if GPS2 Position is used in solution."
+    - type: "mask"
+      bit: 17
+      name: "GPS2_HDT_USED: Set to 1 if GPS2 True Heading is used in solution."
+    - type: "mask"
+      bit: 18
+      name: "ODO_USED: Set to 1 if Odometer is used in solution."
+    - type: "mask"
+      bit: 19
+      name: "DVL_BT_USED: Set to 1 if DVL Bottom Tracking is used in solution."
+    - type: "mask"
+      bit: 20
+      name: "DVL_WT_USED: Set to 1 if DVL Water Layer is used in solution."
+    - type: "mask"
+      bit: 24
+      name: "USBL_USED: Set to 1 if USBL/LBL is used in solution."
+    - type: "mask"
+      bit: 25
+      name: "AIR_DATA_USED: Set to 1 if an altitude or true airspeed is used in solution."
+    - type: "mask"
+      bit: 26
+      name: "ZUPT_USED: Set to 1 if a ZUPT is used in solution."
+    - type: "mask"
+      bit: 27
+      name: "ALIGN_VALID: Set to 1 if sensor alignment and calibration parameters are valid."
+    - type: "mask"
+      bit: 28
+      name: "DEPTH_USED: Set to 1 if Depth sensor (for subsea navigation) is used in solution."
+
+# Source: Page 70
+IMU_Status_General:
+  description: "Provides general device status and information such as the power supplies (main, IMU, GNSS), settings, temperature and data-logger."
+  fields:
+    - type: "mask"
+      bit: 0
+      name: "MAIN_POWER_OK: Set to 1 when main power supply is OK."
+    - type: "mask"
+      bit: 1
+      name: "IMU_POWER_OK: Set to 1 when IMU power supply is OK."
+    - type: "mask"
+      bit: 2
+      name: "GPS_POWER_OK: Set to 1 when GPS power supply is OK."
+    - type: "mask"
+      bit: 3
+      name: "SETTINGS_OK: Set to 1 if settings were correctly loaded."
+    - type: "mask"
+      bit: 4
+      name: "TEMPERATURE_OK: Set to 1 when temperature is within specified limits."
+    - type: "mask"
+      bit: 5
+      name: "DATALOGGER_OK: Set to 1 when the data-logger is working correctly."
+    - type: "mask"
+      bit: 6
+      name: "CPU_OK: Set to 1 if the CPU headroom is correct."
+
+# Source: Pages 70-71
+IMU_Status_Com:
+  description: "Provide information on ports, tells if they are valid or saturated."
+  fields:
+    - type: "mask"
+      bit: 0
+      name: "PORTA_VALID: Set to 0 in case of low level communication error."
+    - type: "mask"
+      bit: 1
+      name: "PORTB_VALID: Set to 0 in case of low level communication error."
+    - type: "mask"
+      bit: 2
+      name: "PORTC_VALID: Set to 0 in case of low level communication error."
+    - type: "mask"
+      bit: 3
+      name: "PORTD_VALID: Set to 0 in case of low level communication error."
+    - type: "mask"
+      bit: 4
+      name: "PORTE_VALID: Set to 0 in case of low level communication error."
+    - type: "mask"
+      bit: 5
+      name: "PORTA_RX_OK: Set to 0 in case of saturation on PORT A input."
+    - type: "mask"
+      bit: 6
+      name: "PORTA_TX_OK: Set to 0 in case of saturation on PORT A output."
+    - type: "mask"
+      bit: 25
+      name: "CAN_VALID: Set to 0 in case of low level communication error."
+    - type: "mask"
+      bit: 26
+      name: "CAN_RX_OK: Set to 0 in case of saturation on CAN Bus input buffer."
+    - type: "mask"
+      bit: 27
+      name: "CAN_TX_OK: Set to 0 in case of saturation on CAN Bus output buffer."
+    - type: "enum"
+      name: "CAN Bus Status"
+      shift: 28
+      mask: 0b111
+      values:
+        0: "CAN_BUS_OFF: Bus OFF operation due to too much errors."
+        1: "CAN_BUS_TX_RX_ERR: Transmit or received error."
+        2: "CAN_BUS_OK: The CAN bus is working correctly."
+        3: "CAN_BUS_ERROR: A general error has occurred on the CAN bus."
+
+# Source: Page 72
+IMU_Status_Aiding:
+  description: "Tells which aiding data is received."
+  fields:
+    - type: "mask"
+      bit: 0
+      name: "GPS1_POS_RECV: Set to 1 when valid GPS 1 position data is received."
+    - type: "mask"
+      bit: 1
+      name: "GPS1_VEL_RECV: Set to 1 when valid GPS 1 velocity data is received."
+    - type: "mask"
+      bit: 2
+      name: "GPS1_HDT_RECV: Set to 1 when valid GPS 1 true heading data is received."
+    - type: "mask"
+      bit: 3
+      name: "GPS1_UTC_RECV: Set to 1 when valid GPS 1 UTC time data is received."
+    - type: "mask"
+      bit: 4
+      name: "GPS2_POS_RECV: Set to 1 when valid GPS 2 position data is received."
+    - type: "mask"
+      bit: 5
+      name: "GPS2_VEL_RECV: Set to 1 when valid GPS 2 velocity data is received."
+    - type: "mask"
+      bit: 6
+      name: "GPS2_HDT_RECV: Set to 1 when valid GPS 2 true heading data is received."
+    - type: "mask"
+      bit: 7
+      name: "GPS2_UTC_RECV: Set to 1 when valid GPS 2 UTC time data is received."
+    - type: "mask"
+      bit: 8
+      name: "MAG_RECV: Set to 1 when valid Magnetometer data is received."
+    - type: "mask"
+      bit: 9
+      name: "ODO_RECV: Set to 1 when Odometer pulse is received."
+    - type: "mask"
+      bit: 10
+      name: "DVL_RECV: Set to 1 when valid DVL data is received."
+    - type: "mask"
+      bit: 11
+      name: "USBL_RECV: Set to 1 when valid USBL data is received."
+    - type: "mask"
+      bit: 12
+      name: "DEPTH_RECV: Set to 1 when valid Depth sensor data is received."
+    - type: "mask"
+      bit: 13
+      name: "AIR_DATA_RECV: Set to 1 when valid altitude and/or airspeed is received."
+
+# Source: Pages 73-74
+IMU_Status_Clock:
+  description: "Provide status on the clock stability, error and synchronization."
+  fields:
+    - type: "mask"
+      bit: 0
+      name: "CLOCK_STABLE_INPUT: Set to 1 when a clock input can be used to synchronize the internal clock."
+    - type: "mask"
+      bit: 5
+      name: "CLOCK_UTC_SYNC: Set to 1 if UTC time is synchronized with a PPS."
+    - type: "enum"
+      name: "Clock Status"
+      shift: 1
+      mask: 0xF
+      values:
+        0: "CLOCK_ERROR: An error has occurred on the clock estimation."
+        1: "CLOCK_FREE_RUNNING: The clock is only based on the internal crystal."
+        2: "CLOCK_STEERING: A PPS has been detected and the clock is converging to it."
+        3: "CLOCK_VALID: The clock has converged to the PPS and is within 500ns."
+    - type: "enum"
+      name: "UTC Status"
+      shift: 6
+      mask: 0xF
+      values:
+        0: "UTC_INVALID: The UTC time is not known, we are just propagating the UTC time internally."
+        1: "UTC_NO_LEAP_SEC: We have received valid UTC time information but we don't have the leap seconds information."
+        2: "UTC_VALID: We have received valid UTC time data with valid leap seconds."
+
+# Source: Pages 75-76
+IMU_Status_Data:
+  description: "Status used to know if sensors are working correctly and are in their measurement range."
+  fields:
+    - type: "mask"
+      bit: 0
+      name: "IMU_COM_OK: Set to 1 if the communication with the IMU is ok."
+    - type: "mask"
+      bit: 1
+      name: "IMU_STATUS_BIT: Set to 1 if internal IMU passes Built In Test (Calibration, CPU)."
+    - type: "mask"
+      bit: 2
+      name: "IMU_ACCEL_X_BIT: Set to 1 if accelerometer X passes Built In Test."
+    - type: "mask"
+      bit: 3
+      name: "IMU_ACCEL_Y_BIT: Set to 1 if accelerometer Y passes Built In Test."
+    - type: "mask"
+      bit: 4
+      name: "IMU_ACCEL_Z_BIT: Set to 1 if accelerometer Z passes Built In Test."
+    - type: "mask"
+      bit: 5
+      name: "IMU_GYRO_X_BIT: Set to 1 if gyroscope X passes Built In Test."
+    - type: "mask"
+      bit: 6
+      name: "IMU_GYRO_Y_BIT: Set to 1 if gyroscope Y passes Built In Test."
+    - type: "mask"
+      bit: 7
+      name: "IMU_GYRO_Z_BIT: Set to 1 if gyroscope Z passes Built In Test."
+    - type: "mask"
+      bit: 8
+      name: "IMU_ACCELS_IN_RANGE: Set to 1 if accelerometers are within operating range."
+    - type: "mask"
+      bit: 9
+      name: "IMU_GYROS_IN_RANGE: Set to 1 if gyroscopes are within operating range."
+
+# Source: Page 81
+IMU_Status_Heave:
+  description: "Ship motion output status."
+  fields:
+    - type: "mask"
+      bit: 0
+      name: "HEAVE_VALID: Set to 1 after heave convergence time."
+    - type: "mask"
+      bit: 1
+      name: "HEAVE_VEL_AIDED: Set to 1 if heave output is compensated for transient accelerations."
+    - type: "mask"
+      bit: 2
+      name: "SURGE_SWAY_INCLUDED: Set to 1 if surge and sway channels are provided in this output."
+    - type: "mask"
+      bit: 3
+      name: "PERIOD_INCLUDED: Set to 1 if the swell period is provided in this output."
+    - type: "mask"
+      bit: 4
+      name: "PERIOD_VALID: Set to 1 if the period returned is assumed to be valid or not."
+    - type: "mask"
+      bit: 5
+      name: "SWELL_MODE: Set to 1 if real time heave is using the swell mode computations."
+
+# Source: Page 83
+IMU_Gps_Vel_Status:
+  description: "GPS velocity fix and status bitmask."
+  fields:
+    - type: "enum"
+      name: "Velocity Status"
+      shift: 0
+      mask: 0x3F
+      values:
+        0: "SOL_COMPUTED: A valid solution has been computed."
+        1: "INSUFFICIENT_OBS: Not enough valid SV to compute a solution."
+        2: "INTERNAL_ERROR: An internal error has occurred."
+        3: "VEL_LIMIT: Velocity limit exceeded."
+    - type: "enum"
+      name: "Velocity Type"
+      shift: 6
+      mask: 0x3F
+      values:
+        0: "NO_SOLUTION: No valid velocity solution available."
+        1: "UNKNOWN_TYPE: An unknown solution type has been computed."
+        2: "DOPPLER: A Doppler velocity has been computed."
+        3: "DIFFERENTIAL: A velocity has been computed between two positions."
+
+# Source: Pages 84-85
+IMU_Gps_Pos_Status:
+  description: "GPS position fix and status bitmask."
+  fields:
+    - type: "enum"
+      name: "Position Status"
+      shift: 0
+      mask: 0x3F
+      values:
+        0: "SOL_COMPUTED: A valid solution has been computed."
+        1: "INSUFFICIENT_DBS: Not enough valid SV to compute a solution."
+        2: "INTERNAL_ERROR: An internal error has occurred."
+        3: "HEIGHT_LIMIT: The height limit has been exceeded."
+    - type: "enum"
+      name: "Position Type"
+      shift: 6
+      mask: 0x3F
+      values:
+        0: "NO_SOLUTION: No valid solution available."
+        1: "UNKNOWN_TYPE: An unknown solution type has been computed."
+        2: "SINGLE: Single point solution position."
+        3: "PSRDIFF: Standard Pseudorange Differential Solution (DGPS)."
+        4: "SBAS: SBAS satellite used for differential corrections."
+        5: "OMNISTAR: Omnistar VBS Position (L1 sub-meter)."
+        6: "RTK_FLOAT: Floating RTK ambiguity solution (20 cms RTK)."
+        7: "RTK_INT: Integer RTK ambiguity solution (2 cms RTK)."
+        8: "PPP_FLOAT: Precise Point Positioning with float ambiguities."
+        9: "PPP_INT: Precise Point Positioning with fixed ambiguities."
+        10: "FIXED: Fixed location solution position."
+    - type: "mask"
+      bit: 12
+      name: "GPS_L1_USED: Set to 1 if GPS L1C/A/L1P is used in the solution."
+    - type: "mask"
+      bit: 13
+      name: "GPS_L2_USED: Set to 1 if GPS L2P/L2C is used in the solution."
+    - type: "mask"
+      bit: 14
+      name: "GPS_L5_USED: Set to 1 if GPS L5 is used in the solution."
+    - type: "mask"
+      bit: 15
+      name: "GLO_L1_USED: Set to 1 if GLONASS L1C/A is used in the solution."
+    - type: "mask"
+      bit: 16
+      name: "GLO_L2_USED: Set to 1 if GLONASS L2C/L2P is used in the solution."
+    - type: "mask"
+      bit: 17
+      name: "GLO_L3_USED: Set to 1 if GLONASS L3 is used in the solution."
+    - type: "mask"
+      bit: 18
+      name: "GAL_E1_USED: Set to 1 if Galileo E1 is used in solution."
+    - type: "mask"
+      bit: 19
+      name: "GAL_E5A_USED: Set to 1 if Galileo E5a is used in solution."
+    - type: "mask"
+      bit: 20
+      name: "GAL_E5B_USED: Set to 1 if Galileo E5b is used in solution."
+    - type: "mask"
+      bit: 21
+      name: "GAL_E5ALT_USED: Set to 1 if Galileo E5 AltBoc is used in solution."
+    - type: "mask"
+      bit: 22
+      name: "GAL_E6_USED: Set to 1 if Galileo E6 is used in solution."
+    - type: "mask"
+      bit: 23
+      name: "BDS_B1_USED: Set to 1 if BeiDou B1 is used in solution."
+    - type: "mask"
+      bit: 24
+      name: "BDS_B2_USED: Set to 1 if BeiDou B2 is used in solution."
+    - type: "mask"
+      bit: 25
+      name: "BDS_B3_USED: Set to 1 if BeiDou B3 is used in solution."
+    - type: "mask"
+      bit: 26
+      name: "QZSS_L1_USED: Set to 1 if QZSS L1C/A is used in solution."
+    - type: "mask"
+      bit: 27
+      name: "QZSS_L2_USED: Set to 1 if QZSS L2C is used in solution."
+    - type: "mask"
+      bit: 28
+      name: "QZSS_L5_USED: Set to 1 if QZSS L5 is used in solution."
+
+# Source: Page 86
+IMU_Gps_Hdt_Status:
+  description: "GPS True Heading status."
+  fields:
+    - type: "enum"
+      name: "Heading Status"
+      shift: 0
+      mask: 0x3F
+      values:
+        0: "SOL_COMPUTED: A valid solution has been computed."
+        1: "INSUFFICIENT_OBS: Not enough valid SV to compute a solution."
+        2: "INTERNAL_ERROR: An internal error has occurred."
+        3: "HEIGHT_LIMIT: The height limit has been exceeded."
+    - type: "mask"
+      bit: 6
+      name: "BASELINE_VALID: Set if the baseline length field is filled and valid."

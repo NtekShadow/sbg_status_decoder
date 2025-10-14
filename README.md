@@ -1,19 +1,41 @@
-# 🎈 Blank app template
+````
+# Raceyard SBG Status Decoder
 
-A simple Streamlit app template for you to modify!
+A simple web application built with Streamlit to decode decimal status codes from SBG Systems' inertial navigation systems into human-readable flags.
 
-[![Open in Streamlit](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://blank-app-template.streamlit.app/)
+This tool is designed for the Raceyard Formula Student team to quickly diagnose sensor states during testing and development.
 
-### How to run it on your own machine
+## Features
 
-1. Install the requirements
+-   **Web-Based UI:** Accessible from any browser on the local network.
+-   **Dynamic Definitions:** Status bit definitions are loaded from an external `status_codes.yaml` file, making them easy to update without changing the code.
+-   **Comprehensive Decoding:** Supports both simple bitmasks and multi-bit enum values.
 
-   ```
-   $ pip install -r requirements.txt
-   ```
+## File Structure
 
-2. Run the app
+-   `streamlit_app.py`: The main Streamlit application script.
+-   `status_codes.yaml`: Contains all status code definitions based on the SBG firmware manual.
+-   `requirements.txt`: Lists the required Python packages.
+-   `README.md`: This file.
 
-   ```
-   $ streamlit run streamlit_app.py
-   ```
+## How to Run Locally
+
+1.  **Clone the repository:**
+    ```bash
+    git clone <your-repo-url>
+    cd <your-repo-folder>
+    ```
+
+2.  **Install the dependencies:**
+    Make sure you have Python 3.8+ installed.
+    ```bash
+    pip install -r requirements.txt
+    ```
+
+3.  **Run the Streamlit app:**
+    ```bash
+    streamlit run streamlit_app.py
+    ```
+
+4.  **Open your browser:** Navigate to the local URL provided by Streamlit (usually `http://localhost:8501`).
+````

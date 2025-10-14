@@ -1,4 +1,3 @@
-````
 # Raceyard SBG Status Decoder
 
 A simple web application built with Streamlit to decode decimal status codes from SBG Systems' inertial navigation systems into human-readable flags.
@@ -38,4 +37,3 @@ This tool is designed for the Raceyard Formula Student team to quickly diagnose 
     ```
 
 4.  **Open your browser:** Navigate to the local URL provided by Streamlit (usually `http://localhost:8501`).
-````

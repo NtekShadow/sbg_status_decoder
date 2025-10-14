@@ -38,7 +38,7 @@ def decode_status(decimal_code, status_definition):
     return active_flags
 
 # ==============================================================================
-#    Streamlit User Interface (Überarbeitet)
+#    Streamlit User Interface (Überarbeitet & Korrigiert)
 # ==============================================================================
 
 # --- Page Configuration ---
@@ -153,8 +153,7 @@ if STATUS_CODES:
     # Centered Logo
     col1, col2, col3 = st.columns([1, 2, 1])
     with col2:
-        # Ersetzen Sie "URL_ZUM_RACEYARD_LOGO" mit einem direkten Link zum Logo
-        st.image("https://www.raceyard.de/wp-content/uploads/2021/04/Raceyard_Logo_RGB-1.png", use_column_width=True)
+        st.image("https://www.raceyard.de/wp-content/uploads/2021/04/Raceyard_Logo_RGB-1.png", use_container_width=True) # <-- KORRIGIERT
 
     st.title("SBG Status Decoder")
     st.markdown("<p style='text-align: center;'>Ein Werkzeug für das Raceyard-Team zur Dekodierung von SBG Systems Status-Codes.</p>", unsafe_allow_html=True)

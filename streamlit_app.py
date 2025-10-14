@@ -153,7 +153,7 @@ if STATUS_CODES:
     # Centered Logo
     col1, col2, col3 = st.columns([1, 2, 1])
     with col2:
-        st.image("https://ddavid.github.io/fsoco/img/raceyard_logo.jpg", use_container_width=True)
+        st.image("https://raceyard.de/wp-content/uploads/2022/05/logo_raceyard_formula_student-1c-weiss.png", use_container_width=True)
 
     st.title("SBG Status Decoder")
     st.markdown("<p style='text-align: center;'>Ein Werkzeug für das Raceyard-Team zur Dekodierung von SBG Systems Status-Codes.</p>", unsafe_allow_html=True)

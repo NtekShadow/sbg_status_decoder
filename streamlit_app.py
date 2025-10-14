@@ -152,9 +152,6 @@ STATUS_CODES = load_definitions()
 # --- App Layout (English version from previous step) ---
 if STATUS_CODES:
     col1, col2, col3 = st.columns([1, 2, 1])
-    with col2:
-        st.image("https://raceyard.de/wp-content/uploads/2022/05/logo_raceyard_formula_student-1c-weiss.png", use_container_width=True)
-
     st.title("SBG Status Decoder")
     st.markdown("<p style='text-align: center; color: #a0a0a0;'>A tool for the Raceyard team to decode SBG Systems' status codes.</p>", unsafe_allow_html=True)
     st.write("---")

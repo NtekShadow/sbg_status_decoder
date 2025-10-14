@@ -3,7 +3,7 @@ import yaml
 import os
 
 # ==============================================================================
-#    Core Decoding Logic (Unverändert)
+#    Core Decoding Logic
 # ==============================================================================
 
 def decode_status(decimal_code, status_definition):
@@ -35,7 +35,7 @@ def decode_status(decimal_code, status_definition):
     return active_flags
 
 # ==============================================================================
-#    Streamlit User Interface (Dark Mode & Centered Title)
+#    Streamlit User Interface
 # ==============================================================================
 
 # --- Page Configuration ---
@@ -149,9 +149,8 @@ def load_definitions():
 
 STATUS_CODES = load_definitions()
 
-# --- App Layout (English version from previous step) ---
+# --- App Layout ---
 if STATUS_CODES:
-    col1, col2, col3 = st.columns([1, 2, 1])
     st.title("SBG Status Decoder")
     st.markdown("<p style='text-align: center; color: #a0a0a0;'>A tool for the Raceyard team to decode SBG Systems' status codes.</p>", unsafe_allow_html=True)
     st.write("---")
